@@ -49,24 +49,24 @@ SCP의 관점에서 볼 때, 값은 단지 사람이 읽기 어려운 바이트 
 
 Federated voting은 노드가 statement를 confirm 하는 과정이다. 모든 투표가 성공하는 것은 아니며, statement a 에 투표하는 시도가 stuck 되면 노드는 a 또는 !a 모두 confirm 할 수 없다. 그러나, 노드가 statement a를 confirm 하는 데에 성공하면, federated voting은 다음 두 가지를 보장한다.
 
-어떤 설정과 실패 시나리오에서도, 두 노드의 safety를 보장하는 어떤 프로토콜 에서도, 어떤 두 개의 정상 노드도 모순되는 statements를 confirm 하지 않는다. (즉, ill-behaved node에도 불구하고, 두 노드의 쿼럼 인터섹션은 safety를 만족한다.)
-1로 safety가 보장 된 노드가 statement a를 confirm 한다면, 그리고 그 노드가 전체적으로 잘 행동하는(well-behaved) 노드로 구성된 하나 이상의 쿼럼의 멤버라면, 결국  쿼럼의 모든 멤버는 또한 a를 confirm 할 것이다.
+어떤 설정과 실패 시나리오에서도, 두 노드의 safety를 보장하는 어떤 프로토콜 에서는, 어떤 두 개의 정상 노드도 모순되는 statements를 confirm 하지 않는다. (즉, ill-behaved node에도 불구하고, 두 노드의 쿼럼 인터섹션은 safety를 만족한다.)
+1로 safety가 보장 된 노드가 statement a를 confirm 한다면, 그리고 그 노드가 모두가 잘 행동하는(well-behaved) 노드로 구성된 하나 이상의 쿼럼에 멤버로 속해 있다면, 결국 쿼럼의 모든 멤버는 또한 a를 confirm 할 것이다.
 직관적으로, 이런 조건은 FLP imposibility result와 호환되는 liveness의 약한 형태를 보장할 뿐 아니라, 노드 간의 agreement를 보장하는 핵심(key) 이다 [FLP].
 
 노드 ‘v’가 peer로 부터 federated voting message m 의 서명된 복사본을 받았을 때, 메시지에 따라 두 가지 threshold가 state를 변경한다. 우리는 이러한 threshold 들을 다음과 같이 정의한다:
 
 Quorum threshold: ‘v'가 속한 쿼럼의 모든 구성원(‘v’를 포함해서)이 메시지 m을 발행한 경우
-Blocking threshold: ‘v’의 각 쿼럼 슬라이스 중 적어도 하나의 멤버(‘v’ 자신을 포함할 필요는 없음)가 메시지 m을 발행한 경우
+Blocking threshold: ‘v’의 각각의 쿼럼 슬라이스의 적어도 하나의 멤버(그 집합이 ‘v’ 자신을 포함할 필요는 없음)가 메시지 m을 발행한 경우
 각각의 노드 ‘v’ 는 federated voting 하는 동안 a statement와 관련된 여러 유형의 메시지를 보낼 수 있다:
 
 vote a state는 다음의 의미를 갖는다.
 a는 valid statement 이고, !a 처럼 반대되는 어떤 메시지에도 vote 하지 않을 것이라고 약속한다.
 accept a 는 다음의 의미를 갖는다.
-노드는 a 에 동의하거나 동의하지 않을 수 있다. 만약 동의하지 않는다면, 시스템은 전체가 올바른 노드로 구성된 어떤 쿼럼도 v를 포함하지 않는 비잔틴 실패의 비극적인 set을 경험한다.
+노드들은 a 에 동의하거나 동의하지 않을 수 있다. 만약 동의하지 않는다면, 만약 노드들이 동의하지 않는다면, 시스템은 v를 포함하는 모든 쿼럼이 전체가 다 올바른 노드들로만 구성되지 않는 비극적인 비잔틴 fault 집합을 경험했던 것이다.
 (그럼에도 불구하고, a를 accept 하는 것 만으로는 충분하지 않다. 그렇게 하면 합의를 위반할 수도 있다. 이것은 올바른 정족수가 부족해서 stuck 되는 것 보다 더 나쁜 상황이다.)
 vote-or-accept a는 위의 두 메시지의 합집합이다. 노드가 vote a 또는 accept a 메시지를 보내면 암시적으로 이 메시지를 보낸다. vote와 accept를 구별하는 것이 불편하고 불필요한 경우, 노드는 명시적으로 vote-or-accept 메시지를 보낼 수 있다.
-confirm a 는 accept a 가 전송 노드에 의해 quorum threshold에 도달했음을 가리킨다. 이 메시지는 accept a 와 똑같이 해석되지만, 이 메시지를 받은 노드는 전송 노드의 쿼럼 슬라이스를 무시함으로써, 그들의 쿼럼을 최적화할 수 있다. 왜냐하면, confirm a의 의미는 전송 노드의 쿼럼 슬라이스를 이미 확인했다는 의미이기 때문이다.
-Figure 1은 federated voting process를 설명한다. 노드 v 는 과거 투표 또는 v가 보낸 accept message와 반대되는 statement가 아닌, valid statement에 투표한다. vote message가 quorum threshold에 도달하면 노드는 a를 받아들인다. 사실, v는 vote-or-accept message가 quorum threshold에 도달하면 a를 승인하고, 일부 노드가 먼저 투표하지 않고도 a를 승인할 수 있습니다. 특히, 이미 !a에 투표해서 a에는 투표할 수 없는 노드도 여전히 a를 받아들입니다. accept a 메시지가 blocking threshold에 도달했을 때(이것은 !a 가 비극적인 비잔틴 실패 케이스를 제외하고는 quorum threshold에 도달할 수 없음을 의미한다.).
+confirm a 는 accept a 가 전송 노드(sender)에서 quorum threshold에 도달했음을 가리킨다. 이 메시지는 accept a 와 똑같이 해석되지만, 이 메시지를 받은 수신 노드(recipients)들은 전송 노드(sender)의 쿼럼 슬라이스를 무시함으로써, 그들의 쿼럼 확인(quorum check)을 최적화할 수 있다. 왜냐하면, confirm a의 의미는 전송 노드가 쿼럼 슬라이스를 이미 확인했다는 의미이기 때문이다.
+Figure 1은 federated voting process를 설명한다. 노드 v 는 과거 투표 또는 v가 보낸 accept message와 반대되는 statement가 아닌, valid statement에 투표한다. vote message가 quorum threshold에 도달하면 노드는 a를 받아들인다. 사실, 일부 노드는 먼저 vote a 메세지를 보내지 않고도 accept a 메세지를 보낼 수 있기 때문에, v는 vote-or-accept message가 quorum threshold에 도달하면 a를 승인합니다. 특히, 이미 !a에 투표(vote)해서 a에는 투표(vote)할 수 없는 노드도 accept a 메시지가 blocking threshold에 도달했을 때는 여전히 a를 accept합니다. (이것은 !a 가 비극적인 비잔틴 실패 케이스를 제외하고는 quorum threshold에 도달할 수 없음을 의미한다.).
 
 만약 accept a 메시지가 quorum threshold에 도달하는 경우, v는 a를 confirm 하고 federated vote는 성공한다. accept 메시지는 첫 번째 투표 메시지가 성공했다는 사실에 근거해서 두 번째 메시지를 구성한다. 한 번 v가 confirmed state가 되면, 다른 노드가 a를 confirm 하는 것을 더욱 효율적으로 돕기 위해 confirm a 메시지를 발행한다. 왜냐하면 confirm a 메시지를 받으면 v에서 그들의 쿼럼을 검색하는 불필요한 행동을 하지 않을 수 있기 때문이다.
 
