@@ -160,9 +160,8 @@ struct SCPQuorumSet2
 2. 메시지 m에 서명한 validators에 속한 노드 수와 재귀적으로 이 조건을 만족하는 innerSets의 수를 더한 것이 k보다 크거나 같고,
 3. 이 세 가지 조건들은 condition #2를 만족한 어떤 노드들의 조합에 적용(재귀적으로) 된다.
 
-이러한 statement를 만든 validators의 수와 blocking threshold 가 n - k(n minus k)보다 큰 innerSets의 수를 더한 것이 blocking threshold에 도달했을 때 메시지는 v에 대해 blocking threshold에 도달한다(Blocking threshold 는 앞서 언급한 condition #3처럼 다른 노드들에게 재귀적으로 확인할 필요 없는 로컬 속성이다.).
-
-validator들의 숫자 만큼의 statement의 값과 n - k를 초과한 내부 집합이 blocking threshold에 도달할 경우 메시지는 노드 v의 blocking threshold에 도달한다(Blocking threshold 는 앞서 언급한 condition #3처럼 다른 노드들에게 재귀적으로 확인할 필요 없는 로컬 속성이다.).
+이러한 statement를 만드는 validators의 숫자와 (재귀적으로) innerSet들의 숫자를 더한 값이 n-k를 초과하는 blocking threshold에 도달했을 때 메시지는 v에 대해 blocking threshold에 도달한다.
+(Blocking threshold 는 앞서 언급한 condition #3처럼 다른 노드들에게 재귀적으로 확인할 필요 없는 로컬 속성이다.).
 
 Section 3.9에서 설명하는 것 처럼, 모든 프로토콜 메시지들은 송신자의 SCPQuroumSet의 암호화된 해쉬와 디지털 서명의 쌍(pair)이다. 다음 섹션 들에서 설명하는 내부 프로토콜의 메시지들은 이런 quorum slice specification과 디지털 시그니쳐와 함께 수신된다고 이해해야 한다.
 
