@@ -66,7 +66,7 @@ accept a 는 다음의 의미를 갖는다.
 (그럼에도 불구하고, a를 accept 하는 것 만으로는 충분하지 않다. 그렇게 하면 합의를 위반할 수도 있다. 이것은 올바른 정족수가 부족해서 stuck 되는 것 보다 더 나쁜 상황이다.)
 vote-or-accept a는 위의 두 메시지의 합집합이다. 노드가 vote a 또는 accept a 메시지를 보내면 암시적으로 이 메시지를 보낸다. vote와 accept를 구별하는 것이 불편하고 불필요한 경우, 노드는 명시적으로 vote-or-accept 메시지를 보낼 수 있다.
 confirm a 는 accept a 가 전송 노드(sender)에서 quorum threshold에 도달했음을 가리킨다. 이 메시지는 accept a 와 똑같이 해석되지만, 이 메시지를 받은 수신 노드(recipients)들은 전송 노드(sender)의 쿼럼 슬라이스를 무시함으로써, 그들의 쿼럼 확인(quorum check)을 최적화할 수 있다. 왜냐하면, confirm a의 의미는 전송 노드가 쿼럼 슬라이스를 이미 확인했다는 의미이기 때문이다.
-Figure 1은 federated voting process를 설명한다. 노드 v 는 과거 투표 또는 v가 보낸 accept message와 반대되는 statement가 아닌, valid statement에 투표한다. vote message가 quorum threshold에 도달하면 노드는 a를 받아들인다. 사실, 일부 노드는 먼저 vote a 메세지를 보내지 않고도 accept a 메세지를 보낼 수 있기 때문에, v는 vote-or-accept message가 quorum threshold에 도달하면 a를 승인합니다. 특히, 이미 !a에 투표(vote)해서 a에는 투표(vote)할 수 없는 노드도 accept a 메시지가 blocking threshold에 도달했을 때는 여전히 a를 accept. (이것은 !a 가 비극적인 비잔틴 실패 케이스를 제외하고는 quorum threshold에 도달할 수 없음을 의미한다.).
+Figure 1은 federated voting process를 설명한다. 노드 v 는 과거 투표 또는 v가 보낸 accept message와 반대되는 statement가 아닌, valid statement에 투표한다. vote message가 quorum threshold에 도달하면 노드는 a를 받아들인다. 사실, 일부 노드는 먼저 vote a 메세지를 보내지 않고도 accept a 메세지를 보낼 수 있기 때문에, v는 vote-or-accept message가 quorum threshold에 도달하면 a를 승인합니다. 특히, 이미 !a에 투표(vote)해서 a에는 투표(vote)할 수 없는 노드도 accept a 메시지가 blocking threshold에 도달했을 때는 여전히 a를 accept한다. (이것은 !a 가 비극적인 비잔틴 실패 케이스를 제외하고는 quorum threshold에 도달할 수 없음을 의미한다.).
 
 만약 accept a 메시지가 quorum threshold에 도달하는 경우, v는 a를 confirm 하고 federated vote는 성공한다. accept 메시지는 첫 번째 투표 메시지가 성공했다는 사실에 근거해서 두 번째 메시지를 구성한다. 한 번 v가 confirmed state가 되면, 다른 노드가 a를 confirm 하는 것을 더욱 효율적으로 돕기 위해 confirm a 메시지를 발행한다. 왜냐하면 confirm a 메시지를 받으면 v에서 그들의 쿼럼을 검색하는 불필요한 행동을 하지 않을 수 있기 때문이다.
 
