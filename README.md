@@ -15,7 +15,7 @@ _____
 
 # 번역된 자료들
 
-* [The Stellar Consensus Protocol: A Federated Model for Internet-level Consensus](The-Stellar-Consensus-Protocol/README.md)
+* [The Stellar Consensus Protocol: A Federated Model for Internet-level Consensus](The-Stellar-Consensus-Protocol/The-Stellar-Consensus-Protocol.md)
 * [Paxos Made Simple](Paxos-Made-Simple/)
 
 * [Modeling Bitcoin Contracts by Timed Automata](Modeling-Bitcoin-Contracts-by-Timed-Automata/)
